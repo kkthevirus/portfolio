@@ -79,8 +79,59 @@
             0% { opacity: 1; }
             100% { opacity: 0.8; }
         }
-        
-        /* Main Content - Empty */
+
+        /* Bottom Menu Bar */
+        #menu-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            height: 60px;
+            background: #222;
+            border-radius: 30px;
+            box-shadow: 0 0 10px #00ff00;
+            perspective: 1000px;
+        }
+
+        #menu-bar .ellipse {
+            position: relative;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            border-radius: 30px;
+            transform-style: preserve-3d;
+            animation: rotateEllipse 5s infinite linear;
+        }
+
+        @keyframes rotateEllipse {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        #menu-bar .ellipse a {
+            color: #00ff00;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 50px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        #menu-bar .ellipse a:hover {
+            background-color: #00ff00;
+            color: black;
+            transform: scale(1.1);
+        }
+
+        /* Hide main content initially */
         #main-content {
             display: none;
         }
@@ -96,9 +147,19 @@
         <button id="fullscreenBtn">Go Full Screen</button> <!-- Fullscreen Button -->
     </div>
 
+    <!-- Bottom Menu Bar -->
+    <div id="menu-bar">
+        <div class="ellipse">
+            <a href="#" onclick="openPage('home')">Home</a>
+            <a href="#" onclick="openPage('about')">About</a>
+            <a href="#" onclick="openPage('skills')">Skills</a>
+            <a href="#" onclick="openPage('tools')">Tools</a>
+        </div>
+    </div>
+
     <!-- Main Content -->
     <div id="main-content">
-        <!-- No content here as requested -->
+        <!-- Content for each page will be displayed here -->
     </div>
 
     <script>
@@ -156,6 +217,15 @@
                 }
             });
         });
+
+        // Function to open a specific page
+        function openPage(page) {
+            const pages = ['home', 'about', 'skills', 'tools'];
+            pages.forEach(p => {
+                document.getElementById(p + 'Page').style.display = 'none';
+            });
+            document.getElementById(page + 'Page').style.display = 'block';
+        }
     </script>
 </body>
 </html>
