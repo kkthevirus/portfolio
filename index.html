@@ -26,12 +26,10 @@
             background: linear-gradient(45deg, #005f00, #001f00);
             animation: glitch-bg 2s infinite alternate;
         }
-
         @keyframes glitch-bg {
             0% { background: linear-gradient(45deg, #005f00, #001f00); }
             100% { background: linear-gradient(45deg, #003300, #002200); }
         }
-
         .matrix {
             position: absolute;
             width: 100%;
@@ -54,13 +52,40 @@
             50% { text-shadow: 0 0 40px #00ff00, 0 0 60px #00ff00; transform: translateX(5px); }
             100% { text-shadow: 0 0 30px #ff0000, 0 0 50px #ff0000; transform: translateX(-5px); }
         }
-
+        .hacker-text {
+            font-size: 22px;
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+            margin-top: 20px;
+            animation: typing 2s steps(20, end);
+        }
+        .terminal {
+            width: 500px;
+            background: black;
+            color: #00ff00;
+            padding: 15px;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 20px #00ff00;
+            font-family: 'Courier New', monospace;
+            text-align: left;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 3s steps(20, end), flicker 1.5s infinite alternate;
+        }
+        @keyframes typing {
+            from { width: 0; }
+        }
+        @keyframes flicker {
+            0% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+        
         /* Main Content */
         #main-content {
             display: none;
             padding: 20px;
         }
-
+        
         /* Navigation menu styles */
         .side-menu {
             position: fixed;
@@ -87,60 +112,35 @@
             text-align: center;
             transition: background-color 0.3s ease;
         }
-
         .side-menu a:hover {
             background-color: #00ff00;
         }
 
         /* 3D book effect */
-        .book-container {
+        .book {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             perspective: 1500px;
             display: flex;
-            align-items: center;
-        }
-
-        .book {
-            width: 500px;
-            height: 400px;
-            transform-style: preserve-3d;
-            transition: transform 1s;
-            position: relative;
         }
 
         .page {
-            width: 500px;
-            height: 400px;
+            width: 200px;
+            height: 300px;
             background-color: #eee;
+            margin: 0 5px;
             border: 1px solid #ddd;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-            position: absolute;
-            top: 0;
-            left: 0;
-            backface-visibility: hidden;
             border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            transform-origin: left center;
+            animation: flip 1s infinite alternate;
         }
 
-        .page:nth-child(odd) {
-            background-color: #f0f0f0;
-        }
-
-        /* The first page will be visible by default */
-        #homePage {
-            z-index: 10;
-        }
-
-        /* Flip effect */
-        .flip {
-            transform: rotateY(-180deg);
-        }
-
-        /* Side menu and main content styles */
-        #homeContent, #aboutContent, #contactContent, #skillsContent, #toolsContent {
-            display: none;
+        @keyframes flip {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(180deg); }
         }
 
     </style>
@@ -159,45 +159,27 @@
         <header>
             <h1>Welcome to My Portfolio</h1>
         </header>
-
         <section>
             <p>Hello! I'm Kanhaiya Lal Kumawat, a cybersecurity enthusiast.</p>
             <p>I'm passionate about ethical hacking and privacy-focused AI systems.</p>
         </section>
-
+        
         <!-- Side menu -->
         <div class="side-menu">
-            <a href="#" onclick="flipPage('home')">Home</a>
-            <a href="#" onclick="flipPage('about')">About</a>
-            <a href="#" onclick="flipPage('contact')">Contact</a>
-            <a href="#" onclick="flipPage('skills')">Skills</a>
-            <a href="#" onclick="flipPage('tools')">Tools</a>
+            <a href="#" onclick="openPage('home')">Home</a>
+            <a href="#" onclick="openPage('about')">About</a>
+            <a href="#" onclick="openPage('contact')">Contact</a>
+            <a href="#" onclick="openPage('skills')">Skills</a>
+            <a href="#" onclick="openPage('tools')">Tools</a>
         </div>
 
         <!-- 3D book effect -->
-        <div class="book-container">
-            <div class="book" id="book">
-                <div class="page" id="homePage">
-                    <h2>Home Page</h2>
-                    <p>Welcome to the Home page!</p>
-                </div>
-                <div class="page" id="aboutPage">
-                    <h2>About Me</h2>
-                    <p>I'm a cybersecurity enthusiast passionate about ethical hacking.</p>
-                </div>
-                <div class="page" id="contactPage">
-                    <h2>Contact Info</h2>
-                    <p>Email: kanhaiya@example.com</p>
-                </div>
-                <div class="page" id="skillsPage">
-                    <h2>Skills Overview</h2>
-                    <p>My skills include Python, Bash, and Ethical Hacking tools.</p>
-                </div>
-                <div class="page" id="toolsPage">
-                    <h2>Tools</h2>
-                    <p>Tools I use: Nmap, Metasploit, Burp Suite.</p>
-                </div>
-            </div>
+        <div class="book">
+            <div class="page" id="homePage">Home Page</div>
+            <div class="page" id="aboutPage">About Me</div>
+            <div class="page" id="contactPage">Contact Info</div>
+            <div class="page" id="skillsPage">Skills Overview</div>
+            <div class="page" id="toolsPage">Tools</div>
         </div>
 
     </div>
@@ -258,21 +240,13 @@
             });
         });
 
-        // Function to flip the page
-        function flipPage(page) {
-            const book = document.getElementById("book");
-            const pages = ["homePage", "aboutPage", "contactPage", "skillsPage", "toolsPage"];
-            const pageId = page + "Page";
+        // Function to open a specific page
+        function openPage(page) {
+            const pages = ['home', 'about', 'contact', 'skills', 'tools'];
             pages.forEach(p => {
-                if (p !== pageId) {
-                    document.getElementById(p).style.display = "none";
-                }
+                document.getElementById(p + 'Page').style.display = 'none';
             });
-            document.getElementById(pageId).style.display = "block";
-            book.classList.add("flip");
-            setTimeout(() => {
-                book.classList.remove("flip");
-            }, 1000);
+            document.getElementById(page + 'Page').style.display = 'block';
         }
     </script>
 </body>
