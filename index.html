@@ -124,9 +124,48 @@
             transform: scale(1.1);
         }
 
-        /* Hide main content initially */
+        /* Main Content */
         #main-content {
             display: none;
+            position: relative;
+            height: 400px;
+        }
+
+        .notebook {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            perspective: 1500px;
+            width: 80%;
+            height: 80%;
+        }
+
+        .book-pages {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transform: rotateX(0deg);
+            transition: transform 1s ease;
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #eee;
+            border: 2px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transform-origin: left;
+            border-radius: 10px;
+            background: #222;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: bold;
         }
 
     </style>
@@ -150,9 +189,16 @@
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Main Content with Notebook Effect -->
     <div id="main-content">
-        <!-- Content for each page will be displayed here -->
+        <div class="notebook">
+            <div class="book-pages">
+                <div class="page" id="homePage">Home Page</div>
+                <div class="page" id="aboutPage">About Me</div>
+                <div class="page" id="skillsPage">Skills Overview</div>
+                <div class="page" id="toolsPage">Tools</div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -212,13 +258,25 @@
             });
         });
 
-        // Function to open a specific page
+        // Function to open a specific page with flip animation
         function openPage(page) {
             const pages = ['home', 'about', 'skills', 'tools'];
+            const bookPages = document.querySelector('.book-pages');
+            
+            // Hide all pages
             pages.forEach(p => {
                 document.getElementById(p + 'Page').style.display = 'none';
             });
-            document.getElementById(page + 'Page').style.display = 'block';
+
+            // Show the clicked page
+            const targetPage = document.getElementById(page + 'Page');
+            targetPage.style.display = 'flex';
+
+            // Trigger page flip animation
+            bookPages.style.transform = 'rotateX(-180deg)';
+            setTimeout(function() {
+                bookPages.style.transform = 'rotateX(0deg)';
+            }, 1000); // Delay before resetting flip effect
         }
     </script>
 </body>
