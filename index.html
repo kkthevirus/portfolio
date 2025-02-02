@@ -81,6 +81,16 @@
             display: none;
             padding: 20px;
         }
+        #fullscreenBtn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 20px;
+            background-color: #00ff00;
+            color: #000;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -89,6 +99,7 @@
         <div class="lock" id="lock">🔒</div>
         <div class="hacker-text">Authenticating...</div>
         <div class="terminal">Accessing secure system...</div>
+        <button id="fullscreenBtn">Go Full Screen</button> <!-- Fullscreen Button -->
     </div>
 
     <!-- Main Content -->
@@ -142,6 +153,19 @@
             // Start the interval to toggle the lock every 2 seconds
             setInterval(toggleLock, 2000); // Toggle every 2 seconds (faster toggle)
 
+            // Fullscreen functionality
+            const fullscreenBtn = document.getElementById("fullscreenBtn");
+            fullscreenBtn.addEventListener("click", function() {
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                    document.documentElement.webkitRequestFullscreen();
+                } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+                    document.documentElement.msRequestFullscreen();
+                }
+            });
         });
     </script>
 </body>
