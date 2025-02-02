@@ -8,120 +8,193 @@
         body {
             margin: 0;
             font-family: 'Courier New', monospace;
+            text-align: center;
             background: #000;
             color: #00ff00;
             overflow: hidden;
-            display: flex;
         }
-        
+
         /* Splash screen styles */
         #splash {
-            position: fixed;
             width: 100%;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            position: relative;
             background: linear-gradient(45deg, #005f00, #001f00);
             animation: glitch-bg 2s infinite alternate;
-            z-index: 10;
         }
-        
         @keyframes glitch-bg {
             0% { background: linear-gradient(45deg, #005f00, #001f00); }
             100% { background: linear-gradient(45deg, #003300, #002200); }
         }
-        
-        /* Left-side menu bar */
+        .matrix {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            overflow: hidden;
+        }
+        .matrix canvas {
+            width: 100%;
+            height: 100%;
+        }
+        .lock {
+            font-size: 80px;
+            color: #ff0000;
+            text-shadow: 0 0 30px #ff0000, 0 0 50px #ff0000;
+            animation: lock-glitch 1.5s infinite alternate;
+        }
+        @keyframes lock-glitch {
+            0% { text-shadow: 0 0 30px #ff0000, 0 0 50px #ff0000; transform: translateX(0); }
+            50% { text-shadow: 0 0 40px #00ff00, 0 0 60px #00ff00; transform: translateX(5px); }
+            100% { text-shadow: 0 0 30px #ff0000, 0 0 50px #ff0000; transform: translateX(-5px); }
+        }
+        .hacker-text {
+            font-size: 22px;
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+            margin-top: 20px;
+            animation: typing 2s steps(20, end);
+        }
+        .terminal {
+            width: 500px;
+            background: black;
+            color: #00ff00;
+            padding: 15px;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 20px #00ff00;
+            font-family: 'Courier New', monospace;
+            text-align: left;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 3s steps(20, end), flicker 1.5s infinite alternate;
+        }
+        @keyframes typing {
+            from { width: 0; }
+        }
+        @keyframes flicker {
+            0% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+
+        /* Bottom Menu Bar (No rotation, appears after splash) */
         #menu-bar {
             position: fixed;
-            top: 50%;
-            left: 20px;
-            transform: translateY(-50%);
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
-            flex-direction: column;
-            width: 150px;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            height: 60px;
             background: #222;
-            padding: 10px;
-            border-radius: 10px;
+            border-radius: 30px;
             box-shadow: 0 0 10px #00ff00;
-            opacity: 0;
+            opacity: 0; /* Initially hidden */
             transition: opacity 0.5s ease;
         }
-        
-        #menu-bar a {
+
+        #menu-bar .ellipse {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            border-radius: 30px;
+        }
+
+        #menu-bar .ellipse a {
             color: #00ff00;
             text-decoration: none;
             font-size: 18px;
             font-weight: bold;
-            padding: 10px;
-            text-align: center;
-            border-radius: 5px;
+            padding: 10px 20px;
+            border-radius: 50px;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
-        
-        #menu-bar a:hover {
+
+        #menu-bar .ellipse a:hover {
             background-color: #00ff00;
             color: black;
             transform: scale(1.1);
         }
-        
-        /* Right-side book */
+
+        /* Main Content */
         #main-content {
             display: none;
-            position: absolute;
-            right: 50px;
-            top: 50%;
-            transform: translateY(-50%);
+            position: relative;
+            height: 400px;
         }
-        
+
         .notebook {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             perspective: 1500px;
-            width: 400px;
-            height: 300px;
+            width: 80%;
+            height: 80%;
         }
-        
+
         .book-pages {
+            position: absolute;
             width: 100%;
             height: 100%;
             transform-style: preserve-3d;
+            transform: rotateX(0deg);
             transition: transform 1s ease;
         }
-        
+
         .page {
             position: absolute;
             width: 100%;
             height: 100%;
+            background-color: #eee;
+            border: 2px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transform-origin: left;
+            border-radius: 10px;
             background: #222;
             color: #fff;
-            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 30px;
             font-weight: bold;
             display: none;
         }
+
         .page.show {
             display: flex;
         }
+
     </style>
 </head>
 <body>
     <div id="splash">
+        <div class="matrix"><canvas id="matrixCanvas"></canvas></div>
+        <div class="lock" id="lock">🔒</div>
         <div class="hacker-text">Authenticating...</div>
+        <div class="terminal">Accessing secure system...</div>
+        <button id="fullscreenBtn">Go Full Screen</button> <!-- Fullscreen Button -->
     </div>
 
-    <!-- Left Menu Bar -->
+    <!-- Bottom Menu Bar -->
     <div id="menu-bar">
-        <a href="#" onclick="openPage('home')">Home</a>
-        <a href="#" onclick="openPage('about')">About</a>
-        <a href="#" onclick="openPage('skills')">Skills</a>
-        <a href="#" onclick="openPage('tools')">Tools</a>
+        <div class="ellipse">
+            <a href="#" onclick="openPage('home')">Home</a>
+            <a href="#" onclick="openPage('about')">About</a>
+            <a href="#" onclick="openPage('skills')">Skills</a>
+            <a href="#" onclick="openPage('tools')">Tools</a>
+        </div>
     </div>
 
-    <!-- Right-side Book -->
+    <!-- Main Content with Notebook Effect -->
     <div id="main-content">
         <div class="notebook">
             <div class="book-pages">
@@ -134,28 +207,81 @@
     </div>
 
     <script>
+        const canvas = document.getElementById("matrixCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array.from({ length: columns }).fill(0);
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#00ff00";
+            ctx.font = `${fontSize}px monospace`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                drops[i] = drops[i] * fontSize > canvas.height && Math.random() > 0.975 ? 0 : drops[i] + 1;
+            }
+        }
+        setInterval(drawMatrix, 50);
+
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(function() {
                 document.getElementById("splash").style.display = "none";
                 document.getElementById("main-content").style.display = "block";
-                document.getElementById("menu-bar").style.opacity = "1";
+                document.getElementById("menu-bar").style.opacity = "1"; // Show menu bar after splash
             }, 4000);
+            
+            let lock = document.getElementById("lock");
+            
+            // Function to toggle the lock emoji
+            function toggleLock() {
+                lock.textContent = lock.textContent === "🔒" ? "🔓" : "🔒";
+            }
+
+            // Start the interval to toggle the lock every 2 seconds
+            setInterval(toggleLock, 2000); // Toggle every 2 seconds (faster toggle)
+
+            // Fullscreen functionality
+            const fullscreenBtn = document.getElementById("fullscreenBtn");
+            fullscreenBtn.addEventListener("click", function() {
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                    document.documentElement.webkitRequestFullscreen();
+                } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+                    document.documentElement.msRequestFullscreen();
+                }
+            });
         });
 
+        // Function to open a specific page with flip animation
         function openPage(page) {
             const pages = ['home', 'about', 'skills', 'tools'];
             const bookPages = document.querySelector('.book-pages');
             
+            // Hide all pages
             pages.forEach(p => {
                 document.getElementById(p + 'Page').classList.remove('show');
             });
 
-            document.getElementById(page + 'Page').classList.add('show');
+            // Show the clicked page
+            const targetPage = document.getElementById(page + 'Page');
+            targetPage.classList.add('show');
 
+            // Trigger page flip animation
             bookPages.style.transform = 'rotateY(180deg)';
             setTimeout(function() {
                 bookPages.style.transform = 'rotateY(0deg)';
-            }, 1000);
+            }, 1000); // Delay before resetting flip effect
         }
     </script>
 </body>
