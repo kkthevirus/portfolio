@@ -21,12 +21,12 @@
             align-items: center;
             flex-direction: column;
             position: relative;
-            background: radial-gradient(circle, #001100, #000000);
-            animation: glitch-bg 1.5s infinite alternate;
+            background: linear-gradient(45deg, #005f00, #001f00);
+            animation: glitch-bg 2s infinite alternate;
         }
         @keyframes glitch-bg {
-            0% { background: radial-gradient(circle, #001100, #000000); }
-            100% { background: radial-gradient(circle, #002200, #000000); }
+            0% { background: linear-gradient(45deg, #005f00, #001f00); }
+            100% { background: linear-gradient(45deg, #003300, #002200); }
         }
         .matrix {
             position: absolute;
@@ -40,23 +40,30 @@
             height: 100%;
         }
         .lock {
-            font-size: 60px;
-            text-shadow: 0 0 20px #00ff00;
-            animation: glitch 1s infinite alternate;
+            font-size: 80px;
+            color: #ff0000;
+            text-shadow: 0 0 30px #ff0000, 0 0 50px #ff0000;
+            animation: lock-glitch 1.5s infinite alternate;
+        }
+        @keyframes lock-glitch {
+            0% { text-shadow: 0 0 30px #ff0000, 0 0 50px #ff0000; transform: translateX(0); }
+            50% { text-shadow: 0 0 40px #00ff00, 0 0 60px #00ff00; transform: translateX(5px); }
+            100% { text-shadow: 0 0 30px #ff0000, 0 0 50px #ff0000; transform: translateX(-5px); }
         }
         .hacker-text {
             font-size: 22px;
+            color: #00ff00;
             text-shadow: 0 0 5px #00ff00;
             margin-top: 20px;
             animation: typing 2s steps(20, end);
         }
         .terminal {
-            width: 400px;
+            width: 500px;
             background: black;
             color: #00ff00;
-            padding: 10px;
+            padding: 15px;
             border: 2px solid #00ff00;
-            box-shadow: 0 0 15px #00ff00;
+            box-shadow: 0 0 20px #00ff00;
             font-family: 'Courier New', monospace;
             text-align: left;
             overflow: hidden;
@@ -65,10 +72,6 @@
         }
         @keyframes typing {
             from { width: 0; }
-        }
-        @keyframes glitch {
-            0% { transform: translateX(0px); }
-            100% { transform: translateX(2px); }
         }
         @keyframes flicker {
             0% { opacity: 1; }
