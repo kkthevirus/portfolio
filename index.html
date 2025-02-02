@@ -29,25 +29,17 @@
             height: 100%;
             overflow: hidden;
             z-index: 0;
-        }
-
-        .code {
             font-size: 1.5rem;
             white-space: nowrap;
-            overflow: hidden;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             animation: scroll 10s linear infinite;
         }
 
         @keyframes scroll {
             0% {
-                transform: translate(-50%, -50%) translateY(0);
+                transform: translateY(100%);
             }
             100% {
-                transform: translate(-50%, -50%) translateY(-100%);
+                transform: translateY(-100%);
             }
         }
 
@@ -59,8 +51,8 @@
         }
 
         .lock {
-            width: 200px;
-            height: 200px;
+            width: 100px;
+            height: 150px;
             background: rgba(0, 0, 0, 0.8);
             border: 5px solid limegreen;
             border-radius: 10px;
@@ -84,10 +76,10 @@
         .lock::before {
             content: '';
             position: absolute;
-            top: 20px;
+            top: 10px;
             left: 50%;
             transform: translateX(-50%);
-            width: 60px;
+            width: 40px;
             height: 20px;
             background: limegreen;
             border-radius: 10px;
@@ -96,7 +88,7 @@
         .lock::after {
             content: '';
             position: absolute;
-            top: 60px;
+            top: 50px;
             left: 50%;
             transform: translateX(-50%);
             width: 20px;
@@ -123,17 +115,15 @@
 <body>
     <!-- Background Coding Animation -->
     <div class="background">
-        <div class="code">
-            <pre>
-                console.log("Initializing...");
-                for (let i = 0; i < 10; i++) {
-                    console.log("Loading module " + i);
-                }
-                setTimeout(() => {
-                    console.log("Access Granted");
-                }, 5000);
-            </pre>
-        </div>
+        <pre>
+            console.log("Initializing...");
+            for (let i = 0; i < 10; i++) {
+                console.log("Loading module " + i);
+            }
+            setTimeout(() => {
+                console.log("Access Granted");
+            }, 5000);
+        </pre>
     </div>
 
     <!-- Splash Screen -->
@@ -160,4 +150,6 @@
                 mainContent.style.display = "block";
             }, 5000); // 5000 milliseconds = 5 seconds
         });
-    </
+    </script>
+</body>
+</html>
