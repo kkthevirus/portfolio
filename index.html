@@ -8,164 +8,179 @@
         body {
             margin: 0;
             font-family: 'Courier New', monospace;
-            text-align: center;
+            display: flex;
+            height: 100vh;
             background: #000;
             color: #00ff00;
-            overflow: hidden;
         }
-        #splash {
-            width: 100%;
-            height: 100vh;
+        /* Sidebar styles */
+        #sidebar {
+            width: 200px;
+            background: #222;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
             display: flex;
-            justify-content: center;
-            align-items: center;
             flex-direction: column;
-            position: relative;
-            background: linear-gradient(45deg, #005f00, #001f00);
-            animation: glitch-bg 2s infinite alternate;
+            justify-content: space-between;
         }
-        @keyframes glitch-bg {
-            0% { background: linear-gradient(45deg, #005f00, #001f00); }
-            100% { background: linear-gradient(45deg, #003300, #002200); }
-        }
-        .matrix {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            overflow: hidden;
-        }
-        .matrix canvas {
-            width: 100%;
-            height: 100%;
-        }
-        .lock {
-            font-size: 80px;
-            color: #ff0000;
-            text-shadow: 0 0 30px #ff0000, 0 0 50px #ff0000;
-            animation: lock-glitch 1.5s infinite alternate;
-        }
-        @keyframes lock-glitch {
-            0% { text-shadow: 0 0 30px #ff0000, 0 0 50px #ff0000; transform: translateX(0); }
-            50% { text-shadow: 0 0 40px #00ff00, 0 0 60px #00ff00; transform: translateX(5px); }
-            100% { text-shadow: 0 0 30px #ff0000, 0 0 50px #ff0000; transform: translateX(-5px); }
-        }
-        .hacker-text {
-            font-size: 22px;
+        #sidebar h1 {
+            font-size: 24px;
             color: #00ff00;
-            text-shadow: 0 0 5px #00ff00;
-            margin-top: 20px;
-            animation: typing 2s steps(20, end);
+            text-align: center;
         }
-        .terminal {
-            width: 500px;
-            background: black;
+        #sidebar a {
             color: #00ff00;
-            padding: 15px;
-            border: 2px solid #00ff00;
-            box-shadow: 0 0 20px #00ff00;
-            font-family: 'Courier New', monospace;
-            text-align: left;
-            overflow: hidden;
-            white-space: nowrap;
-            animation: typing 3s steps(20, end), flicker 1.5s infinite alternate;
+            text-decoration: none;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 18px;
+            transition: background 0.3s ease;
         }
-        @keyframes typing {
-            from { width: 0; }
+        #sidebar a:hover {
+            background: #444;
         }
-        @keyframes flicker {
-            0% { opacity: 1; }
-            100% { opacity: 0.8; }
+        #sidebar a.active {
+            background: #005f00;
         }
-        #main-content {
+
+        /* Book layout styles */
+        #book {
+            margin-left: 200px;
+            width: 100%;
+            padding: 20px;
+            overflow-y: scroll;
+        }
+        .book-page {
             display: none;
             padding: 20px;
+            background: #111;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
         }
-        #fullscreenBtn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 20px;
-            background-color: #00ff00;
-            color: #000;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
+        .book-page.active {
+            display: block;
+        }
+
+        /* Common styles */
+        .page-title {
+            font-size: 30px;
+            color: #00ff00;
+            margin-bottom: 10px;
+        }
+        .page-content {
+            font-size: 18px;
+            color: #00ff00;
         }
     </style>
 </head>
 <body>
-    <div id="splash">
-        <div class="matrix"><canvas id="matrixCanvas"></canvas></div>
-        <div class="lock" id="lock">🔒</div>
-        <div class="hacker-text">Authenticating...</div>
-        <div class="terminal">Accessing secure system...</div>
-        <button id="fullscreenBtn">Go Full Screen</button> <!-- Fullscreen Button -->
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <h1>Portfolio</h1>
+        <a href="#" id="homeLink" class="nav-link">Home</a>
+        <a href="#" id="aboutLink" class="nav-link">About</a>
+        <a href="#" id="skillsLink" class="nav-link">Skills</a>
+        <a href="#" id="projectsLink" class="nav-link">Projects</a>
+        <a href="#" id="contactLink" class="nav-link">Contact</a>
+        <a href="#" id="toolsLink" class="nav-link">Tools</a>
     </div>
 
-    <!-- Main Content -->
-    <div id="main-content">
-        <header>
-            <h1>Welcome to My Portfolio</h1>
-        </header>
-        <section>
-            <p>Hello! I'm Kanhaiya Lal Kumawat, a cybersecurity enthusiast.</p>
-            <p>I'm passionate about ethical hacking and privacy-focused AI systems.</p>
-        </section>
+    <!-- Book Content -->
+    <div id="book">
+        <!-- Home Page -->
+        <div id="homePage" class="book-page active">
+            <div class="page-title">Welcome to My Portfolio</div>
+            <div class="page-content">
+                <p>Hello! I'm Kanhaiya Lal Kumawat, a cybersecurity enthusiast.</p>
+                <p>Explore my skills, projects, and experience below.</p>
+            </div>
+        </div>
+
+        <!-- About Page -->
+        <div id="aboutPage" class="book-page">
+            <div class="page-title">About Me</div>
+            <div class="page-content">
+                <p>I am passionate about ethical hacking, cybersecurity, and the integration of privacy-focused AI technologies.</p>
+            </div>
+        </div>
+
+        <!-- Skills Page -->
+        <div id="skillsPage" class="book-page">
+            <div class="page-title">Skills</div>
+            <div class="page-content">
+                <p>Proficient in:</p>
+                <ul>
+                    <li>Python, Bash, JavaScript</li>
+                    <li>Cybersecurity Tools: Nmap, Metasploit, Burp Suite, Wireshark</li>
+                    <li>Networking, Encryption, AI Ethics</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Projects Page -->
+        <div id="projectsPage" class="book-page">
+            <div class="page-title">Projects</div>
+            <div class="page-content">
+                <p>Some of my notable projects include:</p>
+                <ul>
+                    <li>Security Vulnerability Scanner</li>
+                    <li>AI-Based Privacy Solution</li>
+                    <li>Exploit Development and POCs</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contactPage" class="book-page">
+            <div class="page-title">Contact</div>
+            <div class="page-content">
+                <p>You can reach me at:</p>
+                <ul>
+                    <li>Email: kanhaiya@domain.com</li>
+                    <li>LinkedIn: <a href="https://linkedin.com/in/kkthevirus">kkthevirus</a></li>
+                    <li>Twitter: <a href="https://twitter.com/kkthevirus">kkthevirus</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tools Page -->
+        <div id="toolsPage" class="book-page">
+            <div class="page-title">Tools</div>
+            <div class="page-content">
+                <p>Some tools I work with:</p>
+                <ul>
+                    <li>Nmap</li>
+                    <li>Wireshark</li>
+                    <li>Metasploit</li>
+                    <li>Burp Suite</li>
+                    <li>Python, Bash</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <script>
-        const canvas = document.getElementById("matrixCanvas");
-        const ctx = canvas.getContext("2d");
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        // Add event listeners to each navigation link
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = e.target.id.replace('Link', 'Page');
+                
+                // Remove active class from all links and pages
+                navLinks.forEach(link => link.classList.remove('active'));
+                document.querySelectorAll('.book-page').forEach(page => page.classList.remove('active'));
 
-        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const drops = Array.from({ length: columns }).fill(0);
-
-        function drawMatrix() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#00ff00";
-            ctx.font = `${fontSize}px monospace`;
-
-            for (let i = 0; i < drops.length; i++) {
-                const text = letters[Math.floor(Math.random() * letters.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                drops[i] = drops[i] * fontSize > canvas.height && Math.random() > 0.975 ? 0 : drops[i] + 1;
-            }
-        }
-        setInterval(drawMatrix, 50);
-
-        document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(function() {
-                document.getElementById("splash").style.display = "none";
-                document.getElementById("main-content").style.display = "block";
-            }, 4000);
-            
-            let lock = document.getElementById("lock");
-            
-            // Function to toggle the lock emoji
-            function toggleLock() {
-                lock.textContent = lock.textContent === "🔒" ? "🔓" : "🔒";
-            }
-
-            // Start the interval to toggle the lock every 2 seconds
-            setInterval(toggleLock, 2000); // Toggle every 2 seconds (faster toggle)
-
-            // Fullscreen functionality
-            const fullscreenBtn = document.getElementById("fullscreenBtn");
-            fullscreenBtn.addEventListener("click", function() {
-                if (document.documentElement.requestFullscreen) {
-                    document.documentElement.requestFullscreen();
-                } else if (document.documentElement.mozRequestFullScreen) { // Firefox
-                    document.documentElement.mozRequestFullScreen();
-                } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
-                    document.documentElement.webkitRequestFullscreen();
-                } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
-                    document.documentElement.msRequestFullscreen();
-                }
+                // Add active class to the clicked link and corresponding page
+                e.target.classList.add('active');
+                document.getElementById(target).classList.add('active');
             });
         });
     </script>
