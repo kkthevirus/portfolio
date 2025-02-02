@@ -166,6 +166,11 @@
             justify-content: center;
             font-size: 30px;
             font-weight: bold;
+            display: none;
+        }
+
+        .page.show {
+            display: flex;
         }
 
     </style>
@@ -265,17 +270,17 @@
             
             // Hide all pages
             pages.forEach(p => {
-                document.getElementById(p + 'Page').style.display = 'none';
+                document.getElementById(p + 'Page').classList.remove('show');
             });
 
             // Show the clicked page
             const targetPage = document.getElementById(page + 'Page');
-            targetPage.style.display = 'flex';
+            targetPage.classList.add('show');
 
             // Trigger page flip animation
-            bookPages.style.transform = 'rotateX(-180deg)';
+            bookPages.style.transform = 'rotateY(180deg)';
             setTimeout(function() {
-                bookPages.style.transform = 'rotateX(0deg)';
+                bookPages.style.transform = 'rotateY(0deg)';
             }, 1000); // Delay before resetting flip effect
         }
     </script>
