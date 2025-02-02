@@ -43,16 +43,12 @@
             font-size: 80px;
             color: #ff0000;
             text-shadow: 0 0 30px #ff0000, 0 0 50px #ff0000;
-            animation: lock-glitch 1.5s infinite alternate, lock-open-close 4s ease-in-out infinite;
+            animation: lock-glitch 1.5s infinite alternate;
         }
         @keyframes lock-glitch {
             0% { text-shadow: 0 0 30px #ff0000, 0 0 50px #ff0000; transform: translateX(0); }
             50% { text-shadow: 0 0 40px #00ff00, 0 0 60px #00ff00; transform: translateX(5px); }
             100% { text-shadow: 0 0 30px #ff0000, 0 0 50px #ff0000; transform: translateX(-5px); }
-        }
-        @keyframes lock-open-close {
-            0%, 100% { content: "🔒"; }
-            50% { content: "🔓"; }
         }
         .hacker-text {
             font-size: 22px;
@@ -90,7 +86,7 @@
 <body>
     <div id="splash">
         <div class="matrix"><canvas id="matrixCanvas"></canvas></div>
-        <div class="lock">🔒</div>
+        <div class="lock" id="lock">🔒</div>
         <div class="hacker-text">Authenticating...</div>
         <div class="terminal">Accessing secure system...</div>
     </div>
@@ -135,6 +131,11 @@
                 document.getElementById("splash").style.display = "none";
                 document.getElementById("main-content").style.display = "block";
             }, 4000);
+            
+            let lock = document.getElementById("lock");
+            setInterval(function() {
+                lock.textContent = lock.textContent === "🔒" ? "🔓" : "🔒";
+            }, 4000); // Toggle lock every 4 seconds
         });
     </script>
 </body>
