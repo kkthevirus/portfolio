@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hacker Portfolio Splash Screen</title>
+    <title>Digital Lock Splash Screen</title>
     <style>
         /* General Styles */
         body {
@@ -17,32 +17,37 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            position: relative;
         }
 
-        /* Matrix Background Animation */
-        body::before {
-            content: "";
+        /* Background Coding Animation */
+        .background {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.5),
-                rgba(0, 0, 0, 0.5) 1px,
-                transparent 1px,
-                transparent 2px
-            );
-            animation: matrix 5s linear infinite;
+            overflow: hidden;
+            z-index: 0;
         }
 
-        @keyframes matrix {
+        .code {
+            font-size: 1.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: scroll 10s linear infinite;
+        }
+
+        @keyframes scroll {
             0% {
-                transform: translateY(0);
+                transform: translate(-50%, -50%) translateY(0);
             }
             100% {
-                transform: translateY(-100%);
+                transform: translate(-50%, -50%) translateY(-100%);
             }
         }
 
@@ -50,42 +55,56 @@
         #splash-screen {
             text-align: center;
             z-index: 1;
+            perspective: 1000px;
         }
 
-        #splash-screen h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            animation: glitch 1s infinite;
+        .lock {
+            width: 200px;
+            height: 200px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 5px solid limegreen;
+            border-radius: 10px;
+            position: relative;
+            margin: 0 auto;
+            animation: lockAnimation 2s forwards;
         }
 
-        #splash-screen p {
-            font-size: 1.5rem;
-            animation: glitch 1.5s infinite;
-        }
-
-        /* Glitch Text Animation */
-        @keyframes glitch {
+        @keyframes lockAnimation {
             0% {
-                transform: translate(0);
+                transform: rotateY(0deg);
             }
-            20% {
-                transform: translate(-2px, 2px);
-            }
-            40% {
-                transform: translate(2px, -2px);
-            }
-            60% {
-                transform: translate(-2px, 2px);
-            }
-            80% {
-                transform: translate(2px, -2px);
+            50% {
+                transform: rotateY(180deg);
             }
             100% {
-                transform: translate(0);
+                transform: rotateY(0deg);
             }
         }
 
-        /* Main Content Styles */
+        .lock::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 20px;
+            background: limegreen;
+            border-radius: 10px;
+        }
+
+        .lock::after {
+            content: '';
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 60px;
+            background: limegreen;
+            border-radius: 10px;
+        }
+
         #main-content {
             text-align: center;
             display: none; /* Initially hidden */
@@ -102,10 +121,26 @@
     </style>
 </head>
 <body>
+    <!-- Background Coding Animation -->
+    <div class="background">
+        <div class="code">
+            <pre>
+                console.log("Initializing...");
+                for (let i = 0; i < 10; i++) {
+                    console.log("Loading module " + i);
+                }
+                setTimeout(() => {
+                    console.log("Access Granted");
+                }, 5000);
+            </pre>
+        </div>
+    </div>
+
     <!-- Splash Screen -->
     <div id="splash-screen">
-        <h1>Hacker Portfolio</h1>
-        <p>Initializing System...</p>
+        <div class="lock"></div>
+        <h1>Accessing Secure System</h1>
+        <p>Please Wait...</p>
     </div>
 
     <!-- Main Content -->
@@ -125,6 +160,4 @@
                 mainContent.style.display = "block";
             }, 5000); // 5000 milliseconds = 5 seconds
         });
-    </script>
-</body>
-</html>
+    </
