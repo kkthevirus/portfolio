@@ -64,7 +64,7 @@
         /* Navigation menu styles */
         .side-menu {
             position: fixed;
-            top: 0;
+            top:  0;
             left: 0;
             width: 200px;
             height: 100%;
@@ -151,7 +151,7 @@
         <div class="lock" id="lock">🔒</div>
         <div class="hacker-text">Authenticating...</div>
         <div class="terminal">Accessing secure system...</div>
-        <button id="fullscreenBtn">Go Full Screen</button> <!-- Fullscreen Button -->
+        <button id="fullscreenBtn">Go Full Screen</button>
     </div>
 
     <!-- Main Content -->
@@ -264,11 +264,8 @@
             const pages = ["homePage", "aboutPage", "contactPage", "skillsPage", "toolsPage"];
             const pageId = page + "Page";
             pages.forEach(p => {
-                if (p !== pageId) {
-                    document.getElementById(p).style.display = "none";
-                }
+                document.getElementById(p).style.display = p === pageId ? "block" : "none";
             });
-            document.getElementById(pageId).style.display = "block";
             book.classList.add("flip");
             setTimeout(() => {
                 book.classList.remove("flip");
