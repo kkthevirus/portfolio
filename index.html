@@ -51,8 +51,8 @@
             100% { text-shadow: 0 0 30px #ff0000, 0 0 50px #ff0000; transform: translateX(-5px); }
         }
         @keyframes lock-open-close {
-            0%, 100% { content: "🔒"; }
-            50% { content: "🔓"; }
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(90deg); }
         }
         .hacker-text {
             font-size: 22px;
