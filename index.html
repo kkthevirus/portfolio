@@ -9,25 +9,24 @@
             margin: 0;
             font-family: 'Courier New', monospace;
             text-align: center;
-            background: #0d0d0d;
+            background: #000;
             color: #00ff00;
             overflow: hidden;
         }
         #splash {
             width: 100%;
             height: 100vh;
-            background: #000;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             position: relative;
+            background: radial-gradient(circle, #001100, #000000);
+            animation: glitch-bg 1.5s infinite alternate;
         }
-        .hacker-text {
-            font-size: 24px;
-            font-weight: bold;
-            font-family: 'Courier New', monospace;
-            text-shadow: 0 0 10px #00ff00;
+        @keyframes glitch-bg {
+            0% { background: radial-gradient(circle, #001100, #000000); }
+            100% { background: radial-gradient(circle, #002200, #000000); }
         }
         .matrix {
             position: absolute;
@@ -40,17 +39,53 @@
             width: 100%;
             height: 100%;
         }
+        .lock {
+            font-size: 60px;
+            text-shadow: 0 0 20px #00ff00;
+            animation: glitch 1s infinite alternate;
+        }
+        .hacker-text {
+            font-size: 22px;
+            text-shadow: 0 0 5px #00ff00;
+            margin-top: 20px;
+            animation: typing 2s steps(20, end);
+        }
+        .terminal {
+            width: 400px;
+            background: black;
+            color: #00ff00;
+            padding: 10px;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 15px #00ff00;
+            font-family: 'Courier New', monospace;
+            text-align: left;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 3s steps(20, end), flicker 1.5s infinite alternate;
+        }
+        @keyframes typing {
+            from { width: 0; }
+        }
+        @keyframes glitch {
+            0% { transform: translateX(0px); }
+            100% { transform: translateX(2px); }
+        }
+        @keyframes flicker {
+            0% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
         #main-content {
-            padding: 20px;
             display: none;
+            padding: 20px;
         }
     </style>
 </head>
 <body>
-    <!-- Splash Screen -->
     <div id="splash">
         <div class="matrix"><canvas id="matrixCanvas"></canvas></div>
-        <p class="hacker-text">Initializing...</p>
+        <div class="lock">🔒</div>
+        <div class="hacker-text">Authenticating...</div>
+        <div class="terminal">Accessing secure system...</div>
     </div>
 
     <!-- Main Content -->
