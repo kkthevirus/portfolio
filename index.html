@@ -12,13 +12,10 @@
             height: 100vh;
             background: #000;
             color: #00ff00;
-            overflow: hidden;
-            perspective: 1000px;
         }
-
-        /* Sidebar styles (left) */
+        /* Sidebar styles */
         #sidebar {
-            width: 220px;
+            width: 200px;
             background: #222;
             padding: 20px;
             position: fixed;
@@ -28,85 +25,58 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transform-style: preserve-3d;
-            transition: transform 0.5s;
         }
-
         #sidebar h1 {
             font-size: 24px;
             color: #00ff00;
             text-align: center;
-            margin-bottom: 30px;
         }
-
         #sidebar a {
             color: #00ff00;
             text-decoration: none;
-            padding: 12px;
+            padding: 10px;
             margin: 10px 0;
             border-radius: 5px;
             text-align: center;
             font-size: 18px;
             transition: background 0.3s ease;
-            transform: rotateY(20deg);
         }
-
         #sidebar a:hover {
             background: #444;
         }
-
         #sidebar a.active {
             background: #005f00;
         }
 
-        /* Content area (right) */
+        /* Book layout styles */
         #book {
-            margin-left: 220px;
-            flex-grow: 1;
+            margin-left: 200px;
+            width: 100%;
             padding: 20px;
-            background: #111;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
-            transform-style: preserve-3d;
-            transition: transform 0.5s;
+            overflow-y: scroll;
         }
-
         .book-page {
             display: none;
             padding: 20px;
-            background: #222;
+            background: #111;
             border-radius: 10px;
             margin-bottom: 20px;
             box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
-            transform: rotateY(-180deg);
-            transition: transform 0.5s;
         }
-
         .book-page.active {
             display: block;
-            transform: rotateY(0deg);
         }
 
+        /* Common styles */
         .page-title {
             font-size: 30px;
             color: #00ff00;
             margin-bottom: 10px;
         }
-
         .page-content {
             font-size: 18px;
             color: #00ff00;
         }
-
-        /* 3D Flip Effect */
-        #sidebar.active {
-            transform: rotateY(-20deg);
-        }
-
-        #book.active {
-            transform: rotateY(20deg);
-        }
-
     </style>
 </head>
 <body>
