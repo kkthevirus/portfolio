@@ -71,13 +71,12 @@
 </head>
 <body>
     <script>
-        if (window.self === window.top) {
-            window.open(document.URL, '_blank', 'fullscreen=yes');
-        }
         document.addEventListener("DOMContentLoaded", function() {
-            document.documentElement.requestFullscreen().catch(err => {
-                console.log("Fullscreen not allowed", err);
-            });
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log("Fullscreen not allowed", err);
+                });
+            }
             setTimeout(function() {
                 document.getElementById("splash").style.display = "none";
                 document.getElementById("main-content").style.display = "block";
