@@ -8,10 +8,10 @@
         body {
             margin: 0;
             font-family: 'Courier New', monospace;
+            text-align: center;
             background: #000;
             color: #00ff00;
             overflow: hidden;
-            display: flex;
         }
 
         /* Splash screen styles */
@@ -22,89 +22,139 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            position: fixed;
+            position: relative;
             background: linear-gradient(45deg, #005f00, #001f00);
             animation: glitch-bg 2s infinite alternate;
-            z-index: 1000;
         }
         @keyframes glitch-bg {
             0% { background: linear-gradient(45deg, #005f00, #001f00); }
             100% { background: linear-gradient(45deg, #003300, #002200); }
         }
-
-        /* Highlighted Ellipse Menu Bar */
-        .menu-bar {
-            position: fixed;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 180px;
-            height: 350px;
-            background: rgba(0, 255, 0, 0.3);
-            border-radius: 50%;
-            border: 3px solid #00ff00;
-            box-shadow: 0 0 20px #00ff00;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
+        .matrix {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            overflow: hidden;
         }
-        .menu-bar a {
-            color: #00ff00;
-            text-decoration: none;
-            font-size: 20px;
-            margin: 15px 0;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .matrix canvas {
+            width: 100%;
+            height: 100%;
         }
-        .menu-bar a:hover {
+        .lock {
+            font-size: 80px;
             color: #ff0000;
-            transform: scale(1.1);
+            text-shadow: 0 0 30px #ff0000, 0 0 50px #ff0000;
+            animation: lock-glitch 1.5s infinite alternate;
         }
-        .menu-bar img {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
+        @keyframes lock-glitch {
+            0% { text-shadow: 0 0 30px #ff0000, 0 0 50px #ff0000; transform: translateX(0); }
+            50% { text-shadow: 0 0 40px #00ff00, 0 0 60px #00ff00; transform: translateX(5px); }
+            100% { text-shadow: 0 0 30px #ff0000, 0 0 50px #ff0000; transform: translateX(-5px); }
         }
-
-        /* Main Content */
+        .hacker-text {
+            font-size: 22px;
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+            margin-top: 20px;
+            animation: typing 2s steps(20, end);
+        }
+        .terminal {
+            width: 500px;
+            background: black;
+            color: #00ff00;
+            padding: 15px;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 20px #00ff00;
+            font-family: 'Courier New', monospace;
+            text-align: left;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 3s steps(20, end), flicker 1.5s infinite alternate;
+        }
+        @keyframes typing {
+            from { width: 0; }
+        }
+        @keyframes flicker {
+            0% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+        
+        /* Main Content - Empty */
         #main-content {
-            flex-grow: 1;
             display: none;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
         }
 
     </style>
 </head>
 <body>
     <div id="splash">
-        <div class="lock">🔒</div>
+        <div class="matrix"><canvas id="matrixCanvas"></canvas></div>
+        <div class="lock" id="lock">🔒</div>
         <div class="hacker-text">Authenticating...</div>
         <div class="terminal">Accessing secure system...</div>
+        <button id="fullscreenBtn">Go Full Screen</button> <!-- Fullscreen Button -->
     </div>
 
-    <!-- Main Content with Highlighted Ellipse Menu -->
+    <!-- Main Content -->
     <div id="main-content">
-        <div class="menu-bar">
-            <a href="#"><img src="home-icon.png" alt="Home"> Home</a>
-            <a href="#"><img src="about-icon.png" alt="About"> About</a>
-            <a href="#"><img src="contact-icon.png" alt="Contact"> Contact</a>
-            <a href="#"><img src="skills-icon.png" alt="Skills"> Skills</a>
-            <a href="#"><img src="tools-icon.png" alt="Tools"> Tools</a>
-        </div>
+        <!-- No content here as requested -->
     </div>
 
     <script>
+        const canvas = document.getElementById("matrixCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array.from({ length: columns }).fill(0);
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#00ff00";
+            ctx.font = `${fontSize}px monospace`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                drops[i] = drops[i] * fontSize > canvas.height && Math.random() > 0.975 ? 0 : drops[i] + 1;
+            }
+        }
+        setInterval(drawMatrix, 50);
+
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(function() {
                 document.getElementById("splash").style.display = "none";
-                document.getElementById("main-content").style.display = "flex";
+                document.getElementById("main-content").style.display = "block";
             }, 4000);
+            
+            let lock = document.getElementById("lock");
+            
+            // Function to toggle the lock emoji
+            function toggleLock() {
+                lock.textContent = lock.textContent === "🔒" ? "🔓" : "🔒";
+            }
+
+            // Start the interval to toggle the lock every 2 seconds
+            setInterval(toggleLock, 2000); // Toggle every 2 seconds (faster toggle)
+
+            // Fullscreen functionality
+            const fullscreenBtn = document.getElementById("fullscreenBtn");
+            fullscreenBtn.addEventListener("click", function() {
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                    document.documentElement.webkitRequestFullscreen();
+                } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+                    document.documentElement.msRequestFullscreen();
+                }
+            });
         });
     </script>
 </body>
